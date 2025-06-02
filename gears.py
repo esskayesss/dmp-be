@@ -1,4 +1,38 @@
 import joblib
+import os
+import tarfile
+import requests
+from tqdm import tqdm
+
+def download_and_extract_data():
+    DATA_DIR = "./data"
+    ARCHIVE_PATH = "data.tar.gz"
+    DOWNLOAD_URL = os.getenv("MODEL_URL", "https://github.com/esskayesss/dmp-be/releases/download/alpha/data.tar.gz")
+
+    if not os.path.exists(DATA_DIR):
+        print("Downloading data archive...")
+        response = requests.get(DOWNLOAD_URL, stream=True)
+        response.raise_for_status()
+        total = int(response.headers.get('content-length', 0))
+        with open(ARCHIVE_PATH, "wb") as f, tqdm(
+            desc="Downloading",
+            total=total,
+            unit='iB',
+            unit_scale=True,
+            unit_divisor=1024,
+        ) as bar:
+            for chunk in response.iter_content(chunk_size=8192):
+                size = f.write(chunk)
+                bar.update(size)
+
+        print("Extracting archive...")
+        with tarfile.open(ARCHIVE_PATH, "r:gz") as tar:
+            tar.extractall(path=".")
+
+        print("Extraction complete.")
+        os.remove(ARCHIVE_PATH)
+
+download_and_extract_data()
 
 DATA_DIR = './data'
 numerical_scaler_allparams = joblib.load(f"{DATA_DIR}/numerical_scaler_allparams.pkl")

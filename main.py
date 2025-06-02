@@ -1,9 +1,9 @@
+import gears
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 from predict.index import DiamondIndex, DiamondIndex4P
 from diamond import Diamond, Diamond4P
-import time
 
 
 class Diamond4PBody(BaseModel):
