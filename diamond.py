@@ -1,10 +1,9 @@
 from enum import Enum
 import pandas as pd
-from predict.knn import knn_predict
-from predict.knn4p import knn_predict as knn_predict4p
 
-from lib import preprocess_user_query
-from lib4p import preprocess_user_query as preprocess_user_query_4p
+from predict.knn import knn_predict_allparams, knn_predict_fourparams
+from predict.ensemble import ensemble_allparams, ensemble_fourparams
+from lib import preprocess_all, preprocess_four
 
 
 # Enum for Shape
@@ -144,10 +143,17 @@ class Diamond:
         self.depth = float(depth)
         self.table = float(table)
 
-    def predict_price(self, k=12) -> float:
+
+    def predict_price(self, k=12) -> dict:
         user_df = pd.DataFrame([self.to_dict()])
-        user_features = preprocess_user_query(user_df)
-        return knn_predict(user_features, k=k)
+        user_features = preprocess_all(user_df)
+        knn_pred = knn_predict_allparams(user_features, k=k)
+        ensemble_pred = ensemble_allparams(user_features)
+        return {
+            "knn": knn_pred,
+            **ensemble_pred,
+        }
+
 
     def to_dict(self):
         """Convert the Diamond object to a dictionary for preprocessing."""
@@ -252,8 +258,13 @@ class Diamond4P:
 
     def predict_price(self, k=12) -> float:
         user_df = pd.DataFrame([self.to_dict()])
-        user_features = preprocess_user_query_4p(user_df)
-        return knn_predict4p(user_features, k=k)
+        user_features = preprocess_four(user_df)
+        knn_pred = knn_predict_fourparams(user_features, k=k)
+        ensemble_pred = ensemble_fourparams(user_features)
+        return {
+            "knn": knn_pred,
+            **ensemble_pred,
+        }
 
     def to_dict(self):
         """Convert the Diamond object to a dictionary for preprocessing."""
