@@ -10,7 +10,7 @@ def preprocess_four(df):
     ohe = OneHotEncoder(
         handle_unknown='ignore',
         sparse_output=False,
-        feature_name_combiner=lambda x, y: f'shape_{y.replace(' ', '_').lower()}'
+        feature_name_combiner=lambda x, y: f"shape_{y.replace(' ', '_').lower()}"
     )
     
     ohe.fit(pd.DataFrame({"shape": gears.shape_categories}))
@@ -42,7 +42,7 @@ def preprocess_all(df):
     ohe = OneHotEncoder(
         handle_unknown='ignore',
         sparse_output=False,
-        feature_name_combiner=lambda x, y: f'shape_{y.replace(' ', '_').lower()}'
+        feature_name_combiner=lambda x, y: f"shape_{y.replace(' ', '_').lower()}"
     )
     
     ohe.fit(pd.DataFrame({"shape": gears.shape_categories}))
