@@ -45,7 +45,7 @@ def ensemble_allparams(preprocessed: pd.DataFrame) -> dict:
     
     pred = xgb_finetuned_allparams.predict(preprocessed_dmatrix)
     price = lib.price_from_pred(pred)
-    results['XGBoost_finetuned'] = price
+    results['XGBoost Finetuned for <$15k'] = price
     return results
 
 
@@ -66,5 +66,5 @@ def ensemble_fourparams(preprocessed: pd.DataFrame) -> dict:
     
     pred = xgb_finetuned_fourparams.predict(preprocessed_dmatrix)
     price = lib.price_from_pred(pred)
-    results['XGBoost_finetuned'] = price
+    results['XGBoost Finetuned for <$15k'] = price
     return results

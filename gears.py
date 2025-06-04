@@ -7,7 +7,7 @@ from tqdm import tqdm
 def download_and_extract_data():
     DATA_DIR = "./data"
     ARCHIVE_PATH = "data.tar.gz"
-    DOWNLOAD_URL = os.getenv("MODEL_URL", "https://github.com/esskayesss/dmp-be/releases/download/alpha/data.tar.gz")
+    DOWNLOAD_URL = os.getenv("MODEL_URL", "https://github.com/esskayesss/dmp-be/releases/download/latest/data.tar.gz")
 
     if not os.path.exists(DATA_DIR):
         print("Downloading data archive...")

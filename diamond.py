@@ -147,10 +147,11 @@ class Diamond:
     def predict_price(self, k=12) -> dict:
         user_df = pd.DataFrame([self.to_dict()])
         user_features = preprocess_all(user_df)
-        knn_pred = knn_predict_allparams(user_features, k=k)
+        knn_elbow_pred, knn_k_pred, elbow_k = knn_predict_allparams(user_features, k=k)
         ensemble_pred = ensemble_allparams(user_features)
         return {
-            "knn": knn_pred,
+            f"knn by elbow({elbow_k})": knn_elbow_pred,
+            "knn": knn_k_pred,
             **ensemble_pred,
         }
 
@@ -256,13 +257,14 @@ class Diamond4P:
         # Set numerical attributes
         self.carat = float(carat)
 
-    def predict_price(self, k=12) -> float:
+    def predict_price(self, k=12) -> dict:
         user_df = pd.DataFrame([self.to_dict()])
         user_features = preprocess_four(user_df)
-        knn_pred = knn_predict_fourparams(user_features, k=k)
+        knn_elbow_pred, knn_k_pred, elbow_k = knn_predict_fourparams(user_features, k=k)
         ensemble_pred = ensemble_fourparams(user_features)
         return {
-            "knn": knn_pred,
+            f"knn by elbow({elbow_k})": knn_elbow_pred,
+            "knn": knn_k_pred,
             **ensemble_pred,
         }
 
